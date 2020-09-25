@@ -1,4 +1,9 @@
 // SPDX-License-Identifier: MIT
+
+/*
+Notes: this file comes bundled with Truffle
+  - Manages migrations to the network 
+*/
 pragma solidity >=0.4.22 <0.8.0;
 
 contract Migrations {
