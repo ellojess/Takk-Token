@@ -4,15 +4,15 @@
  
  `Takk` is an ERC721 token that represents a moment of gratitude shared between two people. 
  
- A user(Q) who does a good deed is able to send another user(T) 1 Takk as gratitude for the deed. The user who did the good deed(Q) now has 1 Takk in their wallet and can use their Takk to pay other users as gratitude when the situation arises.
+ A user(Q) who does a good deed receives 1 Takk as gratitude for the deed from another user(T). The user who did the good deed(Q) now has 1 Takk in their wallet and can use their `Takk` to pay other users as gratitude when the situation arises.
  (i.e. T paid Q 1 Takk for doing something good)
 
 ### Features to Look Forward to: 
 
-- [ ] **Second coin feature** :  `Hafna` can be sent to users who do bad deeds
-- [ ] `Hafna` will automatically remove 20% of user's `Takk` and remain in the user's account for 3 days
-- [ ] During the 3 days, if `Takk` is recieved while `Hafna` is present, 50% of the `Takk` will be automatically sent to the user who originally sent the `Hafna` (i.e. Q received a `Hafna` from T, now Q pays T 50% of `Takk` recieved for the next 3 days)
-- [ ] Users can exchange x `Takk` to buy 1 `Hafna` to send to another 
+- [ ] **Second token feature** :  `Hafna` can be sent to users who do *bad deeds*
+- [ ] `Hafna` will automatically remove 20% of user's `Takk`, then continues to remain in the user's account for 3 days
+- [ ] During the 3 days, if more `Takk` is recieved while `Hafna` is present, 50% of the `Takk` will automatically be sent to the user who originally sent the `Hafna` (i.e. Q received a `Hafna` from T, now Q pays T 50% of `Takk` recieved in the following 3 days)
+- [ ] Users can exchange x `Takk` to buy 1 `Hafna` to send to another
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@
 - [Ganache](https://www.trufflesuite.com/ganache)
 - [MetaMask](https://metamask.io/)
 
-## Steps for Setup 
+## Steps for Setup & Contribution 
 
 1.  Clone this repo 
 
