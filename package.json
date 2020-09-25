@@ -1,0 +1,25 @@
+{
+  "name": "Takk-Token",
+  "version": "1.0.0",
+  "description": " ERC721 token that represents a moment of gratitude shared between two people",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "lite-server",
+    "test": "echo \"Error: no test specified\" && sexit 1"
+  },
+  "author": "Jessica Trinh",
+  "license": "ISC",
+  "devDependencies": {
+    "bootstrap": "^4.5.2",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-bignumber": "^2.0.2",
+    "lite-server": "^2.3.0",
+    "nodemon": "^1.17.3",
+    "truffle": "^5.1.46",
+    "truffle-contract": "3.0.6"
+  }
+}
