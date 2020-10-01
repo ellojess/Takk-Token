@@ -1,9 +1,11 @@
 App = {
+
+    solidityContracts: {},
     
     load: async () => {
         await App.loadWeb3()
         await App.loadAccount()
-        
+        await App.loadContract()
       },
 
       // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -38,11 +40,29 @@ App = {
           console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
         }
       },
+
+
+
+    // To load the account
     loadAccount: async () => {
         // Set the current blockchain account
         App.accountME = web3.eth.accounts[0]
+        $('#account').html(App.accountME) 
         console.log(App.accountME)
       },
+
+    // Load contract
+    loadContract: async () => {
+        // Create a JavaScript of smart contnract
+        const contract = await $.getJSON('TakkToken.json')
+        App.solidityContracts.TakkToken = TruffleContract(contract)
+        App.solidityContracts.TakkToken.setProvider(App.web3Provider)
+
+        App.deployedContract = await App.solidityContracts.TakkToken.deployed()
+        console.log(App.deployedContract)
+    },
+
+
 }
 
 $(() => {
