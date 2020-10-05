@@ -1,9 +1,12 @@
 App = {
-    
+    // Store the contracts
+    contracts: {},
+
     load: async () => {
         await App.loadWeb3()
         await App.loadAccount()
         await App.loadContract()
+        await App.render()
       },
 
       // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -37,7 +40,8 @@ App = {
         else {
             console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
         }
-      },
+    },
+    // retrieve the account
     loadAccount: async () => {
         // Set the current blockchain account
         App.accountME = web3.eth.accounts[0]
@@ -47,8 +51,48 @@ App = {
 
     // Kento: Load smart contract from the blockchain
     loadContract: async () => {
-        const TakkToken = await $.getJSON('TakkToken.json')
-        console.log(TakkToken)
+    // Create Javascript version of the smart contract -> allows us to call functions on it
+        // pulling the TakkToken.json file
+        const takkToken = await $.getJSON('TakkToken.json')
+        // pass in the TakkToken.json file -> create a wrapper around json file created by truffle allowing us to interact with it
+        App.contracts.TakkToken = TruffleContract(takkToken)
+        // set the provider -> give copy of the smart contract in Javascript telling us where it is on the blockchain
+        // Can do things like call all the functions in the contract.
+        App.contracts.TakkToken.setProvider(App.web3Provider)
+        console.log(takkToken)
+
+        // Get a deployed copy of the smart contract
+        App.takkToken = await App.contracts.TakkToken.deployed()
+    },
+
+    // Render out the account that we are connected with.
+    render: async () => {
+        // Render account -> put the account inside of the id="account" in index.html
+        $('#account').html(App.account)
+
+        // Render gratitude (good deeds)
+        await App.renderTasks()
+    },
+
+    renderTasks: async () => {
+        // Load total gratitude count from blockchain
+        const gratitudeCount = await App.takkToken.gratitudeCount()
+        const $gratitudeTemplate = $('.gratitudeTemplate')
+        // Render each gratitude with a new gratitude template
+        for (var i = 1; i <= gratitudeCount; i++) {
+            const gratitude = await App.takkToken.tokens(i)
+            const gratitudeId = gratitude[0].toNumber()
+            const gratitudeMessage = gratitude[1]
+            
+            // Create the html for the gratitude
+            const $newGratitudeTemplate = $gratitudeTemplate.clone()
+            $newGratitudeTemplate.find('.message').html(gratitudeMessage)
+            $newGratitudeTemplate.find('input')
+                            .prop('name', gratitudeId)
+            
+            // Put gratitude in list
+            $('#gratitudeList').append($newGratitudeTemplate)
+        }
     }
 }
 
