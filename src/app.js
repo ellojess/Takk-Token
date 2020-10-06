@@ -62,7 +62,6 @@ App = {
         console.log(App.deployedContract)
     },
 
-
 }
 
 $(() => {
