@@ -14,4 +14,11 @@ contract('TakkToken', (acccounts) => {
         assert.notEqual(address, null)
         assert.notEqual(address, undefined)
     })
+
+    // checking to see if contructor works as expected
+    it('shows contructor properly', async () => {
+        const gratitudeCount = await this.takkToken.gratitudeCount()
+        const gratitude = await this.takkToken.tokens(gratitudeCount)
+        assert.equal(gratitude.gratitudeMessage, "Welcome Takk Token") 
+    })
 })
