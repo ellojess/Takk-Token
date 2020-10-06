@@ -53,9 +53,15 @@
     <div class="container-fluid">
       <div class="row">
         <main role="main" class="col-lg-12 d-flex justify-content-center">
-          <div id="loader" class="text-center">
-            <p class="text-center">Do more good, get more Takk!</p>
-          </div>
+          <div class="content">
+           <div id="loader" class="text-center">
+             <p class="text-center">Do more good, get more Takk!</p>
+           </div>
+           <form onSubmit="App.createToken(); return false;">
+             <input id="newToken" type="text" class="form-control" placeholder="Add gratitude..." required>
+             <input type="submit" hidden="">
+           </form>
+         </div>
         </main>
       </div>
     </div>
