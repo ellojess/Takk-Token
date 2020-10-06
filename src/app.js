@@ -6,7 +6,7 @@ App = {
         await App.loadWeb3()
         await App.loadAccount()
         await App.loadContract()
-        await App.render()
+        // await App.render()
       },
 
       // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -44,9 +44,10 @@ App = {
     // retrieve the account
     loadAccount: async () => {
         // Set the current blockchain account
-        App.accountME = web3.eth.accounts[0]
+        App.account = web3.eth.accounts[0]
         // Check imported Metamask ganache account id
-        console.log(App.accountME)
+        console.log(App.account)
+        $('#account').html(App.account)
     },
 
     // Kento: Load smart contract from the blockchain
@@ -63,12 +64,19 @@ App = {
 
         // Get a deployed copy of the smart contract
         App.takkToken = await App.contracts.TakkToken.deployed()
+        console.log(App.takkToken)
+    },
+
+    createToken: async () => {
+        const content = $('#newToken').val()
+        await App.takkToken.createToken(content)
+        window.location.reload()
     },
 
     // Render out the account that we are connected with.
     render: async () => {
         // Render account -> put the account inside of the id="account" in index.html
-        $('#account').html(App.account)
+        // $('#account').html(App.account)
 
         // Render gratitude (good deeds)
         await App.renderTasks()
