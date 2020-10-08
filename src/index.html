@@ -1,70 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Takk Token Wallet</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Takk Token Wallet</title>
 
-    <!-- Bootstrap -->
-    <link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap -->
+        <link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
 
-    <style>
-      main {
-        margin-top: 60px;
-      }
+        <style>
+            main {
+                margin-top: 60px;
+            }
 
-      #content {
-        display: none;
-      }
+            #content {
+                display: none;
+            }
 
-      form {
-        width: 350px;
-        margin-bottom: 10px;
-      }
+            form {
+                width: 350px;
+                margin-bottom: 10px;
+            }
 
-      ul {
-        margin-bottom: 0px;
-      }
+            ul {
+                margin-bottom: 0px;
+            }
 
-      #completedTaskList .content {
-        color: grey;
-        text-decoration: line-through;
-      }
-    </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="https://github.com/ellojess/Takk-Token" target="_blank">Takk Token</a>
-      <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap d-none d-sm-none d-sm-block">
-          <small><a class="nav-link" href="#"><span id="account"></span></a></small>
-        </li>
-      </ul>
-    </nav>
-    <div class="container-fluid">
-      <div class="row">
-        <main role="main" class="col-lg-12 d-flex justify-content-center">
-          <div class="content">
-           <div id="loader" class="text-center">
-             <p class="text-center">Do more good, get more Takk!</p>
-           </div>
-           <form onSubmit="App.createToken(); return false;">
-             <input id="newToken" type="text" class="form-control" placeholder="Add gratitude..." required>
-             <input type="submit" hidden="">
-           </form>
-         </div>
-        </main>
-      </div>
-    </div>
+            #completedTaskList .content {
+                color: grey;
+                text-decoration: line-through;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="https://github.com/ellojess/Takk-Token" target="_blank">Takk Token</a>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap d-none d-sm-none d-sm-block">
+                <small><a class="nav-link" href="#"><span id="account"></span></a></small>
+            </li>
+        </ul>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <main role="main" class="col-lg-12 d-flex justify-content-center">
+                    <!-- Loader to prevent double rendering -->
+                <div id="loader" class="text-center">
+                    <p class="text-center">Do more good, get more Takk!</p>
+                </div>
+                <div id="content">
+                <form onSubmit="App.createToken(); return false;">
+                    <input id="newToken" type="text" class="form-control" placeholder="Add gratitude..." required>
+                    <input type="submit" hidden="">
+                </form>
+                <ul id="taskList" class="list-unstyled">
+                    <div class="gratitudeTemplate" class="checkbox" style="display: none">
+                    <label>
+                        <input type="checkbox" />
+                        <span class="content">Gratitude message goes here...</span>
+                    </label>
+                    </div>
+                    </ul>
+                </div>
+                </main>
+            </div>
+        </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

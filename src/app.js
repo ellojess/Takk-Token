@@ -1,4 +1,5 @@
 App = {
+    loading: false,
     // Store the contracts
     contracts: {},
 
@@ -6,7 +7,8 @@ App = {
         await App.loadWeb3()
         await App.loadAccount()
         await App.loadContract()
-        // await App.render()
+        await App.render()
+        // await App.renderGratitude()
       },
 
       // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -47,7 +49,7 @@ App = {
         App.account = web3.eth.accounts[0]
         // Check imported Metamask ganache account id
         console.log(App.account)
-        $('#account').html(App.account)
+        // $('#account').html(App.account)
     },
 
     // Kento: Load smart contract from the blockchain
@@ -75,14 +77,25 @@ App = {
 
     // Render out the account that we are connected with.
     render: async () => {
+        // Prevent double rendering
+        if (App.loading) {
+            return
+        }
+
+        // Update loading status
+        App.setLoading(true)
+
         // Render account -> put the account inside of the id="account" in index.html
-        // $('#account').html(App.account)
+        $('#account').html(App.account)
 
         // Render gratitude (good deeds)
-        await App.renderTasks()
+        await App.renderGratitude()
+
+        // Update loading status
+        App.setLoading(true)
     },
 
-    renderTasks: async () => {
+    renderGratitude: async () => {
         // Load total gratitude count from blockchain
         const gratitudeCount = await App.takkToken.gratitudeCount()
         const $gratitudeTemplate = $('.gratitudeTemplate')
@@ -94,15 +107,31 @@ App = {
             
             // Create the html for the gratitude
             const $newGratitudeTemplate = $gratitudeTemplate.clone()
-            $newGratitudeTemplate.find('.message').html(gratitudeMessage)
+            $newGratitudeTemplate.find('.gratitudeMessage').html(gratitudeMessage)
             $newGratitudeTemplate.find('input')
                             .prop('name', gratitudeId)
             
             // Put gratitude in list
             $('#gratitudeList').append($newGratitudeTemplate)
+
+            // Show Gratitude
+            $newGratitudeTemplate.show()
+        }
+    },
+    setLoading: (boolean) => {
+        App.loading = boolean
+        const loader = $('#loader')
+        const content = $('#content')
+        if (boolean) {
+          loader.show()
+          content.hide()
+        } else {
+          loader.hide()
+          content.show()
         }
     }
 }
+
 
 
 $(() => {
