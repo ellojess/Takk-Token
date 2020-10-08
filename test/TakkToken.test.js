@@ -20,5 +20,16 @@ contract('TakkToken', (acccounts) => {
         const gratitudeCount = await this.takkToken.gratitudeCount()
         const gratitude = await this.takkToken.tokens(gratitudeCount)
         assert.equal(gratitude.gratitudeMessage, "Welcome Takk Token") 
+        assert.notEqual(gratitudeCount, null)
+    })
+
+    it('creates a new token', async () => {
+        const tokenContent = "Create a new Token"
+        this.takkToken.createToken(tokenContent)
+        const gratitudeCount = await this.takkToken.gratitudeCount()
+        const gratitudeToken = await this.takkToken.tokens(gratitudeCount)
+        assert.equal(gratitudeToken.gratitudeMessage, tokenContent)
+        assert.notEqual(gratitudeToken, null)
+        
     })
 })
