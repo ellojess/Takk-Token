@@ -8,7 +8,6 @@ App = {
         await App.loadAccount()
         await App.loadContract()
         await App.render()
-        // await App.renderGratitude()
       },
 
       // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -77,11 +76,11 @@ App = {
 
     // Render out the account that we are connected with.
     render: async () => {
-        // Prevent double rendering
+        // Prevent double rendering => "If loading, stop calling this function"
         if (App.loading) {
             return
         }
-
+        // While this function is running...:
         // Update loading status
         App.setLoading(true)
 
@@ -92,7 +91,7 @@ App = {
         await App.renderGratitude()
 
         // Update loading status
-        App.setLoading(true)
+        App.setLoading(false)
     },
 
     renderGratitude: async () => {
@@ -103,11 +102,11 @@ App = {
         for (var i = 1; i <= gratitudeCount; i++) {
             const gratitude = await App.takkToken.tokens(i)
             const gratitudeId = gratitude[0].toNumber()
-            const gratitudeMessage = gratitude[1]
+            const gratitudeContent = gratitude[1]
             
             // Create the html for the gratitude
             const $newGratitudeTemplate = $gratitudeTemplate.clone()
-            $newGratitudeTemplate.find('.gratitudeMessage').html(gratitudeMessage)
+            $newGratitudeTemplate.find('.content').html(gratitudeContent)
             $newGratitudeTemplate.find('input')
                             .prop('name', gratitudeId)
             
@@ -123,11 +122,11 @@ App = {
         const loader = $('#loader')
         const content = $('#content')
         if (boolean) {
-          loader.show()
-          content.hide()
+            loader.show()
+            content.hide()
         } else {
-          loader.hide()
-          content.show()
+            loader.hide()
+            content.show()
         }
     }
 }

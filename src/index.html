@@ -58,17 +58,18 @@
                     <p class="text-center">Do more good, get more Takk!</p>
                 </div>
                 <div id="content">
-                <form onSubmit="App.createToken(); return false;">
-                    <input id="newToken" type="text" class="form-control" placeholder="Add gratitude..." required>
-                    <input type="submit" hidden="">
-                </form>
-                <ul id="taskList" class="list-unstyled">
-                    <div class="gratitudeTemplate" class="checkbox" style="display: none">
-                    <label>
-                        <input type="checkbox" />
-                        <span class="content">Gratitude message goes here...</span>
-                    </label>
-                    </div>
+                    <!-- Text Box to add gratitude -->
+                    <form onSubmit="App.createToken(); return false;">
+                        <input id="newToken" type="text" class="form-control" placeholder="Add gratitude..." required>
+                        <input type="submit" hidden="">
+                    </form>
+                    <ul id="gratitudeList" class="list-unstyled">
+                        <div class="gratitudeTemplate" class="checkbox" style="display: none">
+                            <label>
+                                <input type="checkbox" />
+                                <span class="content">Gratitude message goes here...</span>
+                            </label>
+                        </div>
                     </ul>
                 </div>
                 </main>
