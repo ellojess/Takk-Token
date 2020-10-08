@@ -117,6 +117,9 @@ App = {
             $newGratitudeTemplate.show()
         }
     },
+    // Show/hide the loader/list of gratitude messages based on the boolean status of the loading attribute
+    // ==> If loading is true: hide the content + display loader
+    // ==> If loading is false: hide the loader + display content
     setLoading: (boolean) => {
         App.loading = boolean
         const loader = $('#loader')
