@@ -1,4 +1,5 @@
 App = {
+    loading: false,
     // Store the contracts
     contracts: {},
 
@@ -6,7 +7,7 @@ App = {
         await App.loadWeb3()
         await App.loadAccount()
         await App.loadContract()
-        // await App.render()
+        await App.render()
       },
 
       // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -47,7 +48,7 @@ App = {
         App.account = web3.eth.accounts[0]
         // Check imported Metamask ganache account id
         console.log(App.account)
-        $('#account').html(App.account)
+        // $('#account').html(App.account)
     },
 
     // Kento: Load smart contract from the blockchain
@@ -75,14 +76,25 @@ App = {
 
     // Render out the account that we are connected with.
     render: async () => {
+        // Prevent double rendering => "If loading, stop calling this function"
+        if (App.loading) {
+            return
+        }
+        // While this function is running...:
+        // Update loading status
+        App.setLoading(true)
+
         // Render account -> put the account inside of the id="account" in index.html
-        // $('#account').html(App.account)
+        $('#account').html(App.account)
 
         // Render gratitude (good deeds)
-        await App.renderTasks()
+        await App.renderGratitude()
+
+        // Update loading status
+        App.setLoading(false)
     },
 
-    renderTasks: async () => {
+    renderGratitude: async () => {
         // Load total gratitude count from blockchain
         const gratitudeCount = await App.takkToken.gratitudeCount()
         const $gratitudeTemplate = $('.gratitudeTemplate')
@@ -90,19 +102,38 @@ App = {
         for (var i = 1; i <= gratitudeCount; i++) {
             const gratitude = await App.takkToken.tokens(i)
             const gratitudeId = gratitude[0].toNumber()
-            const gratitudeMessage = gratitude[1]
+            const gratitudeContent = gratitude[1]
             
             // Create the html for the gratitude
             const $newGratitudeTemplate = $gratitudeTemplate.clone()
-            $newGratitudeTemplate.find('.message').html(gratitudeMessage)
+            $newGratitudeTemplate.find('.content').html(gratitudeContent)
             $newGratitudeTemplate.find('input')
                             .prop('name', gratitudeId)
             
             // Put gratitude in list
             $('#gratitudeList').append($newGratitudeTemplate)
+
+            // Show Gratitude
+            $newGratitudeTemplate.show()
+        }
+    },
+    // Show/hide the loader/list of gratitude messages based on the boolean status of the loading attribute
+    // ==> If loading is true: hide the content + display loader
+    // ==> If loading is false: hide the loader + display content
+    setLoading: (boolean) => {
+        App.loading = boolean
+        const loader = $('#loader')
+        const content = $('#content')
+        if (boolean) {
+            loader.show()
+            content.hide()
+        } else {
+            loader.hide()
+            content.show()
         }
     }
 }
+
 
 
 $(() => {
