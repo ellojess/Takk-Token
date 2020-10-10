@@ -21,8 +21,9 @@ contract TakkToken is ERC721, Ownable {
     mapping(uint => Gratitude) public tokens;
 
     mapping(address => uint[]) public owners;
+    // owner's tokens array
     uint[] ownersTokens;
-    // New user tokens 
+    // New user tokens array
     uint[] newUserTokens;
 
     // populate token to store
@@ -65,7 +66,7 @@ contract TakkToken is ERC721, Ownable {
         require (owners[_to].length != 0);
         return owners[_to];
     }
-
+    // transfer token to another user
     function transfer(address from, address to, uint256 tokenId) public {
         safeTransferFrom(from, to, tokenId);
     }
@@ -93,6 +94,7 @@ contract TakkToken is ERC721, Ownable {
             // creating new mapping
             owners[_to] = newUserTokens;
         }
+        // creates token with the receiving user's address
         super._mint(_to, gratitudeCount);
 
     }
