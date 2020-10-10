@@ -63,8 +63,12 @@ contract TakkToken is ERC721, Ownable {
     function showTokensOfAnyone(address _to) public view returns (uint[] memory) {
         // pass in token id => return address of the owner
         // might be .length
-        require (owners[_to].length != 0);
-        return owners[_to];
+        // require (owners[_to].length != 0);
+
+        if (owners[_to].length != 0) {
+            return owners[_to];
+        }
+        // return owners[_to];
     }
     // transfer token to another user
     function transfer(address from, address to, uint256 tokenId) public {
