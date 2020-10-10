@@ -22,7 +22,7 @@ contract HafnaToken is Ownable {
     mapping(uint => Hafna) public hafna; // store hafna in blockchain/db 
 
     // create a Hafna token
-    function createHafna(string memory _content, address _to, uint _id, bool _exists, string _name) public {
+    function createHafna(string memory _content, uint _id, bool _exists, string _name) public {
         uint id = Hafna.push(Hafna(_id, _exists, _name));
         emit NewHafna(id, _name);
     }
@@ -38,3 +38,16 @@ contract HafnaToken is Ownable {
 
 
 }
+
+/*
+Rules for Hafna Token: 
+  [ ] Hafna will automatically remove 20% of user's Takk, 
+  [ ] Hafna then continues to remain in the user's account for 3 days
+  [ ] During the 3 days, if more Takk is recieved while Hafna is present, 
+      50% of the Takk will automatically be sent to the user who originally sent the Hafna 
+      (i.e. Q received a Hafna from T, now Q pays T 50% of Takk recieved in the following 3 days)
+  [ ] Users can exchange x amount of Takk to buy 1 Hafna to send to another user
+  [ ] Only 1 Hafna can live in an account at any time 
+  [ ] Regardless of who is holding the Hafna (creater or reciever) will suffer consequences
+      while they are holding the token during its 3 day lifespan 
+*/
