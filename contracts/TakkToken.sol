@@ -13,14 +13,15 @@ contract TakkToken is ERC721, Ownable {
     // Gratitude tokens struct 
     struct Gratitude {
         uint id; // id of tokens
-        string gratitudeMessage; // message message of gratitude attached to token -- optional
+        string gratitudeMessage; // message of gratitude attached to token -- optional
 
     }
 
     // store tokens
     mapping(uint => Gratitude) public tokens;
-
+    // mapping
     mapping(address => uint[]) public owners;
+
     // owner's tokens array
     uint[] ownersTokens;
     // New user tokens array
@@ -52,7 +53,7 @@ contract TakkToken is ERC721, Ownable {
     // }
 
     // Show the owner's gratitude tokens
-    function showTokensOfOwner() public view returns (uint[] memory) {
+    function showTokensOfOwner() public view returns (uint [] memory) {
         // pass in token id => return address of the owner
         // might be .length
         require (owners[msg.sender].length != 0);
@@ -60,11 +61,12 @@ contract TakkToken is ERC721, Ownable {
     }
 
      // Show anyone's gratitude tokens
-    function showTokensOfAnyone(address _to) public view returns (uint[] memory) {
+    function showTokensOfAnyone(address _to) public view returns (uint [] memory) {
         // pass in token id => return address of the owner
         // might be .length
-        require (owners[_to].length != 0);
-        return owners[_to];
+        if (owners[_to].length != 0) {
+            return owners[_to];
+        }
     }
     // transfer token to another user
     function transfer(address from, address to, uint256 tokenId) public {
@@ -77,23 +79,25 @@ contract TakkToken is ERC721, Ownable {
 
         // put token inside mapping 
         tokens[gratitudeCount] = Gratitude(gratitudeCount, _content);
-        // run showTokens in createToken, then add to that array
-        // if it doesn't create anything, create new array
         // return show token, set it, then add it
         // uint[] memory ownersTokens = new uint[](100);
         ownersTokens = showTokensOfAnyone(_to);
         // uint[] memory ownersTokens = showTokens(_to);
+
+        // add token to the owner's array of tokens
         if (ownersTokens.length != 0) {
             ownersTokens.push(gratitudeCount);
             // updating the mapping
             owners[_to] = ownersTokens;
         }
+        // if the array length = 0 anything, create new array
         else {
             // uint gratCount[] = [gratitudeCount];
             newUserTokens = [gratitudeCount];
             // creating new mapping
             owners[_to] = newUserTokens;
         }
+
         // creates token with the receiving user's address
         super._mint(_to, gratitudeCount);
 
