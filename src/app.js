@@ -70,7 +70,7 @@ App = {
 
     createToken: async () => {
         const content = $('#newToken').val()
-        await App.takkToken.createToken(content)
+        await App.takkToken.createToken(App.account, content)
         window.location.reload()
     },
 
