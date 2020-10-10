@@ -21,6 +21,9 @@ contract TakkToken is ERC721, Ownable {
     mapping(uint => Gratitude) public tokens;
 
     mapping(address => uint[]) public owners;
+    uint[] ownersTokens;
+    // New user tokens 
+    uint[] newUserTokens;
 
     // populate token to store
     // constructor() public {
@@ -48,14 +51,22 @@ contract TakkToken is ERC721, Ownable {
     // }
 
     // Show the owner's gratitude tokens
-    function showTokens() public view returns (uint[] memory) {
+    function showTokensOfOwner() public view returns (uint[] memory) {
         // pass in token id => return address of the owner
         // might be .length
         require (owners[msg.sender].length != 0);
         return owners[msg.sender];
     }
 
-    function transfer(address from, address to, uint256 tokenId) {
+     // Show anyone's gratitude tokens
+    function showTokensOfAnyone(address _to) public view returns (uint[] memory) {
+        // pass in token id => return address of the owner
+        // might be .length
+        require (owners[_to].length != 0);
+        return owners[_to];
+    }
+
+    function transfer(address from, address to, uint256 tokenId) public {
         safeTransferFrom(from, to, tokenId);
     }
 
@@ -68,15 +79,19 @@ contract TakkToken is ERC721, Ownable {
         // run showTokens in createToken, then add to that array
         // if it doesn't create anything, create new array
         // return show token, set it, then add it
-        uint[] memory ownersTokens = showTokens(_to);
+        // uint[] memory ownersTokens = new uint[](100);
+        ownersTokens = showTokensOfAnyone(_to);
+        // uint[] memory ownersTokens = showTokens(_to);
         if (ownersTokens.length != 0) {
             ownersTokens.push(gratitudeCount);
             // updating the mapping
             owners[_to] = ownersTokens;
         }
         else {
+            // uint gratCount[] = [gratitudeCount];
+            newUserTokens = [gratitudeCount];
             // creating new mapping
-            owners[_to] = uint[gratitudeCount];
+            owners[_to] = newUserTokens;
         }
         super._mint(_to, gratitudeCount);
 
