@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>Takk Token Wallet</title>
-
         <!-- Bootstrap -->
         <link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -62,6 +61,7 @@
                     <form onSubmit="App.createToken(); return false;">
                         <input id="newToken" type="text" class="form-control" placeholder="Add gratitude..." required>
                         <input type="submit" value="Create Gratitude">
+                        <input type="submit" value="Send Takk">
                     </form>
                     <ul id="gratitudeList" class="list-unstyled">
                         <div class="gratitudeTemplate" class="checkbox" style="display: none">

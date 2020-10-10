@@ -70,7 +70,8 @@ App = {
 
     createToken: async () => {
         const content = $('#newToken').val()
-        await App.takkToken.createToken(content)
+        const address = "0xb5C3473191F9CE9511921Fb3c413E0935C99531c"
+        await App.takkToken.createToken(App.account, content)
         window.location.reload()
     },
 
@@ -96,13 +97,23 @@ App = {
 
     renderGratitude: async () => {
         // Load total gratitude count from blockchain
-        const gratitudeCount = await App.takkToken.gratitudeCount()
+        // const gratitudeCount = await App.takkToken.gratitudeCount()
+        const lst = await App.takkToken.showTokensOfAnyone("0xb5C3473191F9CE9511921Fb3c413E0935C99531c")
+        console.log(lst)
+        
+
         const $gratitudeTemplate = $('.gratitudeTemplate')
         // Render each gratitude with a new gratitude template
-        for (var i = 1; i <= gratitudeCount; i++) {
-            const gratitude = await App.takkToken.tokens(i)
+        for (var i = 0; i <= lst.length; i++) {
+            const c = "c"
+            const tokenIndex = lst[i][c][0]
+            console.log(tokenIndex)
+            const gratitude = await App.takkToken.tokens(tokenIndex)
+            console.log("gratitude", gratitude)
             const gratitudeId = gratitude[0].toNumber()
+            console.log(gratitudeId)
             const gratitudeContent = gratitude[1]
+            console.log(gratitudeContent)
             
             // Create the html for the gratitude
             const $newGratitudeTemplate = $gratitudeTemplate.clone()
@@ -124,13 +135,13 @@ App = {
         App.loading = boolean
         const loader = $('#loader')
         const content = $('#content')
-        if (boolean) {
-            loader.show()
-            content.hide()
-        } else {
-            loader.hide()
-            content.show()
-        }
+        // if (boolean) {
+        //     loader.show()
+        //     content.hide()
+        // } else {
+        //     loader.hide()
+        //     content.show()
+        // }
     }
 }
 
