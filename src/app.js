@@ -97,6 +97,7 @@ App = {
     renderGratitude: async () => {
         // Load total gratitude count from blockchain
         const gratitudeCount = await App.takkToken.gratitudeCount()
+        
         const $gratitudeTemplate = $('.gratitudeTemplate')
         // Render each gratitude with a new gratitude template
         for (var i = 1; i <= gratitudeCount; i++) {
