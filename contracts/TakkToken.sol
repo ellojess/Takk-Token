@@ -27,14 +27,16 @@ contract TakkToken is ERC721, Ownable {
 
     // this contructor is needed for the ERC721 inheritance to work
     constructor() ERC721("GameItem", "ITM") public { 
-        createToken("Welcome Takk Token");
+        // createToken("Welcome Takk Token");
     }
 
     // creates token with id & message 
-    function createToken(string memory _content) public  {
+    function createToken(address _to, string memory _content) public  {
         gratitudeCount ++; 
         // put token inside mapping 
         tokens[gratitudeCount] = Gratitude(gratitudeCount, _content);
+
+        super._mint(_to, gratitudeCount);
     }
 
 }
