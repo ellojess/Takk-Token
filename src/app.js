@@ -61,16 +61,28 @@ App = {
         // set the provider -> give copy of the smart contract in Javascript telling us where it is on the blockchain
         // Can do things like call all the functions in the contract.
         App.contracts.TakkToken.setProvider(App.web3Provider)
-        console.log(takkToken)
+        // console.log(takkToken)
 
         // Get a deployed copy of the smart contract
         App.takkToken = await App.contracts.TakkToken.deployed()
-        console.log(App.takkToken)
+        // console.log(App.takkToken)
     },
 
     createToken: async () => {
+        const address = $('#recipientAddress').val()
         const content = $('#newToken').val()
-        await App.takkToken.createToken(App.account, content)
+        // For testing purposes
+        // const address = "0xef797217c1f6e681501B5a7dA1C14E159E68C5E2"
+        await App.takkToken.createToken(address, content)
+        window.location.reload()
+    },
+
+    transferToken: async () => {
+        const toAddress = $('#toAddress').val()
+        const tokenID = $('#tokenId').val()
+        console.log(toAddress)
+        console.log(tokenID)
+        await App.takkToken.transfer(App.account, toAddress, parseInt(tokenID))
         window.location.reload()
     },
 
@@ -97,25 +109,36 @@ App = {
     renderGratitude: async () => {
         // Load total gratitude count from blockchain
         const gratitudeCount = await App.takkToken.gratitudeCount()
-        
+        // For testing purposes
+        // const address = "0x7097B2aFBCdf971A887E5f52bafbf5e7f5dEac67"
+        // var userTokenIds = await App.takkToken.showTokensOfAnyone(address)
         const $gratitudeTemplate = $('.gratitudeTemplate')
+
         // Render each gratitude with a new gratitude template
         for (var i = 1; i <= gratitudeCount; i++) {
-            const gratitude = await App.takkToken.tokens(i)
-            const gratitudeId = gratitude[0].toNumber()
-            const gratitudeContent = gratitude[1]
-            
-            // Create the html for the gratitude
-            const $newGratitudeTemplate = $gratitudeTemplate.clone()
-            $newGratitudeTemplate.find('.content').html(gratitudeContent)
-            $newGratitudeTemplate.find('input')
-                            .prop('name', gratitudeId)
-            
-            // Put gratitude in list
-            $('#gratitudeList').append($newGratitudeTemplate)
+            // const tokenId = userTokenIds[i]["c"][0]
 
-            // Show Gratitude
-            $newGratitudeTemplate.show()
+            if (App.account == await App.takkToken.ownerOf(i)) {
+                const gratitude = await App.takkToken.tokens(i)
+                // console.log("gratitidue", gratitude)
+                const gratitudeId = gratitude[0].toNumber()
+                // console.log("grad id", gratitudeId)
+                const gratitudeContent = gratitude[1]
+                // console.log("gratidue content", gratitudeContent)
+                
+                // Create the html for the gratitude
+                const $newGratitudeTemplate = $gratitudeTemplate.clone()
+                $newGratitudeTemplate.find('.content').html(gratitudeContent + " | Token ID: " + i)
+                $newGratitudeTemplate.find('input')
+                                .prop('name', gratitudeId)
+                
+                // Put gratitude in list
+                $('#gratitudeList').append($newGratitudeTemplate)
+
+                // Show Gratitude
+                $newGratitudeTemplate.show()
+            }
+
         }
     },
     // Show/hide the loader/list of gratitude messages based on the boolean status of the loading attribute

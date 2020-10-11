@@ -17,7 +17,7 @@ contract TakkToken is ERC721, Ownable {
 
     }
 
-    // store tokens
+    // store tok ens
     mapping(uint => Gratitude) public tokens;
 
     mapping(address => uint[]) public owners;
@@ -49,6 +49,11 @@ contract TakkToken is ERC721, Ownable {
     //     // pass in token id => return address of the owner
     //     require (msg.sender == ownerOf(tokenId))
     //     return ownerOf(tokenId)
+    // }
+
+    // function checkOwnership(uint tokenId) {
+    //     if msg.sender == ownerOf(tokenId) {
+    //     }
     // }
 
     // Show the owner's gratitude tokens
