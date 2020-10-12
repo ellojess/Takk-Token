@@ -1,4 +1,4 @@
-# Takk Token ```coming-soon```
+# Takk Token
 
  Blockchain app using `Etherium` Smart Contracts, `Solidity`, and `ERC721`. 
  
