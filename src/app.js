@@ -71,17 +71,34 @@ App = {
     createToken: async () => {
         const address = $('#recipientAddress').val()
         const content = $('#newToken').val()
-        // For testing purposes
-        // const address = "0xef797217c1f6e681501B5a7dA1C14E159E68C5E2"
-        await App.takkToken.createToken(address, content)
-        window.location.reload()
+        console.log("address", address)
+        console.log("App.account", App.account)
+
+        // Check if the address is the same as the current user's address
+        // We don't want the user to be able to create tokens on their own account
+        if (address.toLowerCase() != App.account.toLowerCase()) {
+            // For testing purposes
+            // const address = "0xef797217c1f6e681501B5a7dA1C14E159E68C5E2"
+            await App.takkToken.createToken(address, content)
+            window.location.reload()
+        }
+        // If the address is equal to the user's address
+        // Don't allow token creation
+        else {
+            window.alert("You are not allowed to create a gratitude token for yourself.")
+        }
+        
     },
 
     transferToken: async () => {
+        // Get the toAddress user input
         const toAddress = $('#toAddress').val()
+        // Get the tokenID user input
         const tokenID = $('#tokenId').val()
         console.log(toAddress)
         console.log(tokenID)
+        // Run Smart contract transfer function to transfer the token to the account associated
+        // with toAddress
         await App.takkToken.transfer(App.account, toAddress, parseInt(tokenID))
         window.location.reload()
     },
@@ -118,6 +135,7 @@ App = {
         for (var i = 1; i <= gratitudeCount; i++) {
             // const tokenId = userTokenIds[i]["c"][0]
 
+            // Check if the current user's account ID matches the token owner's ID
             if (App.account == await App.takkToken.ownerOf(i)) {
                 const gratitude = await App.takkToken.tokens(i)
                 // console.log("gratitidue", gratitude)
@@ -128,7 +146,8 @@ App = {
                 
                 // Create the html for the gratitude
                 const $newGratitudeTemplate = $gratitudeTemplate.clone()
-                $newGratitudeTemplate.find('.content').html(gratitudeContent + " | Token ID: " + i)
+                // Show the gratitude message and the token ID of that message
+                $newGratitudeTemplate.find('.content').html("Token ID: " + i + " | " + gratitudeContent)
                 $newGratitudeTemplate.find('input')
                                 .prop('name', gratitudeId)
                 
