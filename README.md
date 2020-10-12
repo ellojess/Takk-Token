@@ -20,6 +20,35 @@
 - [NodeJS](https://nodejs.org/en/download/)
 - [Ganache](https://www.trufflesuite.com/ganache)
 - [MetaMask](https://metamask.io/)
+- Install <strong>*OpenZeppelin*</strong> with ```$ npm install @openzeppelin/contracts```
+- Update <strong>*Truffle*</strong> using ```$ npm update -g truffle```
+
+## Connecting Ganache to Metamask
+
+Follow this tutorial to see how to properly connect Ganache to your Metamask.
+[Click Here for the written tutorial](https://steemit.com/ganache/@matbest/setting-up-ganache-and-metamask-on-my-windows-10-home-laptop).
+
+## To run the project code:
+
+- Run ```$ npm install```
+- Run ```$ truffle migrate --reset```
+- Run ```$ npm run dev```
+
+## Demo
+
+Example of a User's webpage with gratitude tokens in their wallet.
+![](images/TakkToken-1-Sender-Startview.png)
+Sending/transfering a gratitude token ID 3 in my wallet.
+![](images/TakkToken-3-Send-token3.png)
+Sending/transfering a gratitude token ID 5 in my wallet.
+![](images/TakkToken-3-Send-token5.png)
+My list of gratitude tokens after sending/transfering desired tokens.
+![](images/TakkToken-4-Sender-afterview.png)
+View of the receiver's webpage.
+![](images/TakkToken-5-Receiver-view.png)
+Error message received upon attempting to create a token on your own account.
+(You are not allowed to create a token on your account, only on other users' account)
+![](images/TakkToken-6-Error.png)
 
 ## Steps for Setup & Contribution 
 

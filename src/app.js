@@ -61,17 +61,45 @@ App = {
         // set the provider -> give copy of the smart contract in Javascript telling us where it is on the blockchain
         // Can do things like call all the functions in the contract.
         App.contracts.TakkToken.setProvider(App.web3Provider)
-        console.log(takkToken)
+        // console.log(takkToken)
 
         // Get a deployed copy of the smart contract
         App.takkToken = await App.contracts.TakkToken.deployed()
-        console.log(App.takkToken)
+        // console.log(App.takkToken)
     },
 
     createToken: async () => {
+        const address = $('#recipientAddress').val()
         const content = $('#newToken').val()
-        const address = "0xb5C3473191F9CE9511921Fb3c413E0935C99531c"
-        await App.takkToken.createToken(App.account, content)
+        console.log("address", address)
+        console.log("App.account", App.account)
+
+        // Check if the address is the same as the current user's address
+        // We don't want the user to be able to create tokens on their own account
+        if (address.toLowerCase() != App.account.toLowerCase()) {
+            // For testing purposes
+            // const address = "0xef797217c1f6e681501B5a7dA1C14E159E68C5E2"
+            await App.takkToken.createToken(address, content)
+            window.location.reload()
+        }
+        // If the address is equal to the user's address
+        // Don't allow token creation
+        else {
+            window.alert("You are not allowed to create a gratitude token for yourself.")
+        }
+        
+    },
+
+    transferToken: async () => {
+        // Get the toAddress user input
+        const toAddress = $('#toAddress').val()
+        // Get the tokenID user input
+        const tokenID = $('#tokenId').val()
+        console.log(toAddress)
+        console.log(tokenID)
+        // Run Smart contract transfer function to transfer the token to the account associated
+        // with toAddress
+        await App.takkToken.transfer(App.account, toAddress, parseInt(tokenID))
         window.location.reload()
     },
 
@@ -97,35 +125,39 @@ App = {
 
     renderGratitude: async () => {
         // Load total gratitude count from blockchain
-        // const gratitudeCount = await App.takkToken.gratitudeCount()
-        const lst = await App.takkToken.showTokensOfAnyone("0xb5C3473191F9CE9511921Fb3c413E0935C99531c")
-        console.log(lst)
-        
-
+        const gratitudeCount = await App.takkToken.gratitudeCount()
+        // For testing purposes
+        // const address = "0x7097B2aFBCdf971A887E5f52bafbf5e7f5dEac67"
+        // var userTokenIds = await App.takkToken.showTokensOfAnyone(address)
         const $gratitudeTemplate = $('.gratitudeTemplate')
-        // Render each gratitude with a new gratitude template
-        for (var i = 0; i <= lst.length; i++) {
-            const c = "c"
-            const tokenIndex = lst[i][c][0]
-            console.log(tokenIndex)
-            const gratitude = await App.takkToken.tokens(tokenIndex)
-            console.log("gratitude", gratitude)
-            const gratitudeId = gratitude[0].toNumber()
-            console.log(gratitudeId)
-            const gratitudeContent = gratitude[1]
-            console.log(gratitudeContent)
-            
-            // Create the html for the gratitude
-            const $newGratitudeTemplate = $gratitudeTemplate.clone()
-            $newGratitudeTemplate.find('.content').html(gratitudeContent)
-            $newGratitudeTemplate.find('input')
-                            .prop('name', gratitudeId)
-            
-            // Put gratitude in list
-            $('#gratitudeList').append($newGratitudeTemplate)
 
-            // Show Gratitude
-            $newGratitudeTemplate.show()
+        // Render each gratitude with a new gratitude template
+        for (var i = 1; i <= gratitudeCount; i++) {
+            // const tokenId = userTokenIds[i]["c"][0]
+
+            // Check if the current user's account ID matches the token owner's ID
+            if (App.account == await App.takkToken.ownerOf(i)) {
+                const gratitude = await App.takkToken.tokens(i)
+                // console.log("gratitidue", gratitude)
+                const gratitudeId = gratitude[0].toNumber()
+                // console.log("grad id", gratitudeId)
+                const gratitudeContent = gratitude[1]
+                // console.log("gratidue content", gratitudeContent)
+                
+                // Create the html for the gratitude
+                const $newGratitudeTemplate = $gratitudeTemplate.clone()
+                // Show the gratitude message and the token ID of that message
+                $newGratitudeTemplate.find('.content').html("Token ID: " + i + " | " + gratitudeContent)
+                $newGratitudeTemplate.find('input')
+                                .prop('name', gratitudeId)
+                
+                // Put gratitude in list
+                $('#gratitudeList').append($newGratitudeTemplate)
+
+                // Show Gratitude
+                $newGratitudeTemplate.show()
+            }
+
         }
     },
     // Show/hide the loader/list of gratitude messages based on the boolean status of the loading attribute
@@ -135,13 +167,13 @@ App = {
         App.loading = boolean
         const loader = $('#loader')
         const content = $('#content')
-        // if (boolean) {
-        //     loader.show()
-        //     content.hide()
-        // } else {
-        //     loader.hide()
-        //     content.show()
-        // }
+        if (boolean) {
+            loader.show()
+            content.hide()
+        } else {
+            loader.hide()
+            content.show()
+        }
     }
 }
 

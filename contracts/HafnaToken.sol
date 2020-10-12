@@ -5,7 +5,7 @@ import "./Ownable.sol";
 
 contract HafnaToken is Ownable {
 
-    using SafeMath for uint256;
+    // using SafeMath for uint256;
 
     event NewHafna(uint id, string name);
 
@@ -19,18 +19,18 @@ contract HafnaToken is Ownable {
         string name; // name Hafna token 
     }
 
-    mapping(uint => Hafna) public hafna; // store hafna in blockchain/db 
+    // mapping(uint => Hafna) public hafna; // store hafna in blockchain/db 
 
-    // create a Hafna token
-    function createHafna(string memory _content, uint _id, bool _exists, string _name) public {
-        uint id = Hafna.push(Hafna(_id, _exists, _name));
-        emit NewHafna(id, _name);
-    }
+    // // create a Hafna token
+    // function createHafna(string memory _content, uint _id, bool _exists, string _name) public {
+    //     uint id = Hafna.push(Hafna(_id, _exists, _name));
+    //     emit NewHafna(id, _name);
+    // }
 
     // transfer token to another user
-    function transfer(address from, address to, uint256 tokenId) public {
-        safeTransferFrom(from, to, tokenId);
-    }
+    // function transfer(address from, address to, uint256 tokenId) public {
+    //     safeTransferFrom(from, to, tokenId);
+    // }
 
 
 
